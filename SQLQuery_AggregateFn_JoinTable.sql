@@ -1,45 +1,44 @@
-# -*- coding: utf-8 -*-
---µÑÇÍÂèÒ§ÇÑ¹¹Õéãªé°Ò¹¢éÍÁÙÅ Northwind
---Calculate Column ¤ÍÅÑÁ¹ì·Õèà¡Ô´¨Ò¡¡ÒÃ¤Ó¹Ç³
+﻿--ตัวอย่างวันนี้ใช้ฐานข้อมูล Northwind
+--Calculate Column คอลัมน์ที่เกิดจากการคำนวณ
 
---¨§áÊ´§ª×èÍàµçÁ¢Í§¾¹Ñ¡§Ò¹·Ø¡¤¹   --Alias Name µÑé§à»ç¹ª×èÍ¢Öé¹ÁÒãËÁè
+--จงแสดงชื่อเต็มของพนักงานทุกคน   --Alias Name ตั้งเป็นชื่อขึ้นมาใหม่
 Select EmployeeID,TitleOfCourtesy+FirstName+' '+LastName [Employee Name]
 from Employees
 Select EmployeeID,[Employee Name] = TitleOfCourtesy+FirstName+' '+LastName
 from Employees
 
---¨§áÊ´§¢éÍÁÙÅÊÔ¹¤éÒ·ÕèÁÕ¨Ó¹Ç¹ã¹ÊµêÍ¡(UnitsInStock)µèÓ¡ÇèÒ¨Ó¹Ç¹·ÕèµéÍ§ÊÑè§«×éÍ(ReorderLevel)
+--จงแสดงข้อมูลสินค้าที่มีจำนวนในสต๊อก(UnitsInStock)ต่ำกว่าจำนวนที่ต้องสั่งซื้อ(ReorderLevel)
 Select productID,productName,UnitsInStock, ReorderLevel, 
        UnitsInStock-ReorderLevel  Defference
 from Products
 
---¨§áÊ´§ÃËÑÊÊÔ¹¤éÒ ª×èÍÊÔ¹¤éÒ ÃÒ¤ÒÊÔ¹¤éÒ áÅÐ ÃÒ¤ÒÊÔ¹¤éÒ·Õè»ÃÑº¢Öé¹ 10%
+--จงแสดงรหัสสินค้า ชื่อสินค้า ราคาสินค้า และ ราคาสินค้าที่ปรับขึ้น 10%
 select ProductID, ProductName,UnitPrice, 
          Convert(Decimal(10,2),UnitPrice*1.1) NewPrice,
 		 Convert(Decimal(10,2),round(UnitPrice*1.1,2)) NewPrice2
 from products
 
---¨§áÊ´§ª×èÍ¾¹Ñ¡§Ò¹ áÅÐ¨Ó¹Ç¹»Õ·Õè·Ó§Ò¹ (¹Ñº¨Ó¹Ç¹à»ç¹»ÕáººàµçÁ»Õ)
+--จงแสดงชื่อพนักงาน และจำนวนปีที่ทำงาน (นับจำนวนเป็นปีแบบเต็มปี)
 Select EmployeeID,TitleOfCourtesy+FirstName+' '+LastName [Employee Name] , 
        year(getdate()) - year(hiredate) Experience, 
 	   year(getdate()) - year(birthdate) Age,
 	   DATEDIFF(hour,BirthDate,GETDATE())/8766 AS AgeYearsIntTrunc
 from Employees
 
---¨§áÊ´§ª×èÍÊÔ¹¤éÒà¾ÕÂ§ 5 µÑÇÍÑ¡ÉÃ áÅÐÃÒ¤ÒÊÔ¹¤éÒ
+--จงแสดงชื่อสินค้าเพียง 5 ตัวอักษร และราคาสินค้า
 Select productID, left(productName,5) PName, UnitPrice
 from Products
 
---¨§áÊ´§ÃËÑÊÊÔ¹¤éÒ ¨Ó¹Ç¹ ÃÒ¤Ò ÊèÇ¹Å´ ÂÍ´à§Ô¹àµçÁ ÊèÇ¹Å´(·Õè¤Ó¹Ç³áÅéÇ) ÂÍ´à§Ô¹·ÕèËÑ¡ÊèÇ¹Å´áÅéÇ
---¨Ò¡µÒÃÒ§ [order Details]
---µéÍ§àÍÒ¨Ó¹Ç³*ÃÒ¤Ò¢ÒÂ¡èÍ¹áÅéÇ¤èÍÂËÑ¡ÊèÇ¹Å´
+--จงแสดงรหัสสินค้า จำนวน ราคา ส่วนลด ยอดเงินเต็ม ส่วนลด(ที่คำนวณแล้ว) ยอดเงินที่หักส่วนลดแล้ว
+--จากตาราง [order Details]
+--ต้องเอาจำนวณ*ราคาขายก่อนแล้วค่อยหักส่วนลด
 select ProductID, Quantity,UnitPrice,Discount, 
-       Quantity*UnitPrice TotalCashÃÇÁ, 
-	   Quantity*UnitPrice*Discount DiscountCashÊèÇ¹Å´,
-	   (Quantity*UnitPrice)-(Quantity*UnitPrice*Discount) NetCashÂÍ´ÊØ´·éÒÂ
+       Quantity*UnitPrice TotalCashรวม, 
+	   Quantity*UnitPrice*Discount DiscountCashส่วนลด,
+	   (Quantity*UnitPrice)-(Quantity*UnitPrice*Discount) NetCashยอดสุดท้าย
 from [Order Details]
 order by 1, 7 desc
---order by ProductID, NetCashÂÍ´ÊØ´·éÒÂ desc
+--order by ProductID, NetCashยอดสุดท้าย desc
 ------------------------------------------------
 --Aggregate Function 
 Select count(*)
@@ -51,35 +50,35 @@ Select CategoryID,Max(Unitprice), Min(UnitPrice),Avg(UnitPrice), Sum(UnitsInStoc
 from Products
 group by CategoryID
 
---µéÍ§¡ÒÃ·ÃÒº¨Ó¹Ç¹·Õè¢ÒÂä´é·Ñé§ËÁ´¢Í§ÊÔ¹¤éÒã¹ÃÒÂ¡ÒÃ¢ÒÂµÑé§áµèËÁÒÂàÅ¢ 11000 à»ç¹µé¹ä»
---àÅ×Í¡ÁÒà©¾ÒÐÁÕÂÍ´¢ÒÂµèÓ¡ÇèÒ 20 ªÔé¹
-Select ProductID,Sum(Quantity) ¨Ó¹Ç¹·Õè¢ÒÂä´é
+--ต้องการทราบจำนวนที่ขายได้ทั้งหมดของสินค้าในรายการขายตั้งแต่หมายเลข 11000 เป็นต้นไป
+--เลือกมาเฉพาะมียอดขายต่ำกว่า 20 ชิ้น
+Select ProductID,Sum(Quantity) จำนวนที่ขายได้
 from [Order Details]
 where orderID>=11000
 group by productID
 having Sum(quantity)<20
 order by 2 desc
 
---µéÍ§¡ÒÃ·ÃÒºÃÒ¤Òà©ÅÕèÂ ÃÒ¤ÒÊÙ§ÊØ´ áÅÐÃÒ¤ÒµèÓÊØ´ ¢Í§ÊÔ¹¤éÒáµèÅÐËÁÇ´ËÁÙè
+--ต้องการทราบราคาเฉลี่ย ราคาสูงสุด และราคาต่ำสุด ของสินค้าแต่ละหมวดหมู่
 Select CategoryID, Avg(UnitPrice), Max(UnitPrice), min(UnitPrice)
 from Products
 group by categoryID
 order by CategoryID
---µéÍ§¡ÒÃ·ÃÒº¨Ó¹Ç¹ÅÙ¡¤éÒã¹áµèÅÐ»ÃÐà·È à©¾ÒÐÅÙ¡¤éÒ·Õèà»ç¹ owner à·èÒ¹Ñé¹ //áÊ´§à©¾ÒÐÃÒÂ¡ÒÃ·ÕèÁÕ 1 ÃÒÂ
+--ต้องการทราบจำนวนลูกค้าในแต่ละประเทศ เฉพาะลูกค้าที่เป็น owner เท่านั้น //แสดงเฉพาะรายการที่มี 1 ราย
 Select country,count(*)
 from customers
 where ContactTitle = 'owner'
 group by country
-having count(*) =1   --ÁÒà¾ÔèÁ·ÕËÅÑ§
+having count(*) =1   --มาเพิ่มทีหลัง
 order by Country
---µéÍ§¡ÒÃ·ÃÒº¨Ó¹Ç¹ãºÊÑè§«×éÍ áÅÐÂÍ´ÃÇÁ¢Í§¤èÒÊè§ ·Õè¶Ù¡Êè§ä»»ÃÐà·ÈµèÒ§æ à©¾ÒÐã¹»Õ 1998 
+--ต้องการทราบจำนวนใบสั่งซื้อ และยอดรวมของค่าส่ง ที่ถูกส่งไปประเทศต่างๆ เฉพาะในปี 1998 
 Select ShipCountry,count(*), sum(Freight)
 from orders
 where year(OrderDate) = 1998
 group by ShipCountry
 order by 3 desc
 
--- µéÍ§¡ÒÃÃËÑÊÊÔ¹¤éÒ ª×èÍÊÔ¹¤éÒ ÃÒ¤Ò ÃËÑÊËÁÇ´ËÁÙè ª×èÍËÁÇ´ËÁÙè à©¾ÒÐËÁÇ´ËÁÙèËÁÒÂàÅ¢ 2,4,6,8
+-- ต้องการรหัสสินค้า ชื่อสินค้า ราคา รหัสหมวดหมู่ ชื่อหมวดหมู่ เฉพาะหมวดหมู่หมายเลข 2,4,6,8
 select productID, ProductName, UnitPrice,p.categoryID, categoryName
 from products p, categories c
 where (p.CategoryID = c.CategoryID) and (p.categoryID in (2,4,6,8))
@@ -90,13 +89,13 @@ from products p join categories c on p.CategoryID = c.CategoryID
 where p.categoryID in (2,4,6,8)
 order by 4
 
---µéÍ§¡ÒÃª×èÍ¾¹Ñ¡§Ò¹·ÕèÃÑº¤ÓÊÑè§«×éÍËÁÒÂàÅ¢ 10275 (áÊ´§ª×Í¾¹Ñ¡§Ò¹ ÃËÑÊ¤ÓÊÑè§«×éÍ ÇÑ¹·ÕèÃÑº¤ÓÊÑè§«×éÍ)
+--ต้องการชื่อพนักงานที่รับคำสั่งซื้อหมายเลข 10275 (แสดงชือพนักงาน รหัสคำสั่งซื้อ วันที่รับคำสั่งซื้อ)
 select FirstName, orderID, OrderDate
 from orders o join Employees e on o.EmployeeID = e.EmployeeID
 where orderID = 10275
 
---µéÍ§¡ÒÃ¢éÍÁÙÅÊÔ¹¤éÒ »ÃÐà·È·ÕèÁÒ ÃËÑÊËÁÇ´ËÁÙè ª×èÍËÁÇ´ËÁÙè 
---à©¾ÒÐÊÔ¹¤éÒ·ÕèÁÒ¨Ò¡»ÃÐà·È USA, Mexico, Canada,Brazil áÅÐÁÕÊ¶Ò¹Ð¨ÓË¹èÒÂÊÔ¹¤éÒ
+--ต้องการข้อมูลสินค้า ประเทศที่มา รหัสหมวดหมู่ ชื่อหมวดหมู่ 
+--เฉพาะสินค้าที่มาจากประเทศ USA, Mexico, Canada,Brazil และมีสถานะจำหน่ายสินค้า
 select ProductID, ProductName, UnitPrice, s.Country, c.CategoryID , CategoryName
 
 from products p join Categories c on p.CategoryID = c.CategoryID
@@ -105,8 +104,8 @@ from products p join Categories c on p.CategoryID = c.CategoryID
 where s.Country in ('USA', 'Mexico', 'Canada','Brazil') and Discontinued = 0
 order by 4, 5
 
---¨§áÊ´§ ÃËÑÊÊÔ¹¤éÒ ª×èÍÊÔ¹¤éÒ »ÃÐà·È·ÕèÁÒ¢Í§ÊÔ¹¤éÒ ËÁÇ´ËÁÙèÊÔ¹¤éÒ ¨Ó¹Ç¹·Õè¢ÒÂ ª×èÍÅÙ¡¤éÒ¼Ùé«×éÍ 
---ª×èÍ¹ÒÁÊ¡ØÅ¾¹Ñ¡§Ò¹¼Ùé¢ÒÂ ª×èÍºÃÔÉÑ·¢¹Êè§ »ÃÐà·È·ÕèÊè§¢Í§ à©¾ÒÐÃÒÂ¡ÒÃÊÔ¹¤éÒÃËÑÊ 77 ·ÕèÍÂÙèã¹ãºÊÑè§«×éÍËÁÒÂàÅÂ 11077
+--จงแสดง รหัสสินค้า ชื่อสินค้า ประเทศที่มาของสินค้า หมวดหมู่สินค้า จำนวนที่ขาย ชื่อลูกค้าผู้ซื้อ 
+--ชื่อนามสกุลพนักงานผู้ขาย ชื่อบริษัทขนส่ง ประเทศที่ส่งของ เฉพาะรายการสินค้ารหัส 77 ที่อยู่ในใบสั่งซื้อหมายเลย 11077
 select p.ProductID,p.ProductName, s.Country,c.CategoryName, od.Quantity, cu.CompanyName,
        FirstName+' '+LastName EmployeeName, sh.CompanyName, o.ShipCountry
 from orders o join [Order Details] od on o.orderID = od.OrderID
