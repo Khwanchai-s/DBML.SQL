@@ -1,44 +1,45 @@
---������ҧ�ѹ�����ҹ������ Northwind
---Calculate Column ����������Դ�ҡ��äӹǳ
+# -*- coding: utf-8 -*-
+--µÑÇÍÂèÒ§ÇÑ¹¹Õéãªé°Ò¹¢éÍÁÙÅ Northwind
+--Calculate Column ¤ÍÅÑÁ¹ì·Õèà¡Ô´¨Ò¡¡ÒÃ¤Ó¹Ç³
 
---���ʴ���������ͧ��ѡ�ҹ�ء��   --Alias Name ����繪��͢��������
+--¨§áÊ´§ª×èÍàµçÁ¢Í§¾¹Ñ¡§Ò¹·Ø¡¤¹   --Alias Name µÑé§à»ç¹ª×èÍ¢Öé¹ÁÒãËÁè
 Select EmployeeID,TitleOfCourtesy+FirstName+' '+LastName [Employee Name]
 from Employees
 Select EmployeeID,[Employee Name] = TitleOfCourtesy+FirstName+' '+LastName
 from Employees
 
---���ʴ��������Թ��ҷ���ըӹǹ�ʵ�͡(UnitsInStock)��ӡ��Ҩӹǹ����ͧ��觫���(ReorderLevel)
+--¨§áÊ´§¢éÍÁÙÅÊÔ¹¤éÒ·ÕèÁÕ¨Ó¹Ç¹ã¹ÊµêÍ¡(UnitsInStock)µèÓ¡ÇèÒ¨Ó¹Ç¹·ÕèµéÍ§ÊÑè§«×éÍ(ReorderLevel)
 Select productID,productName,UnitsInStock, ReorderLevel, 
        UnitsInStock-ReorderLevel  Defference
 from Products
 
---���ʴ������Թ��� �����Թ��� �Ҥ��Թ��� ��� �Ҥ��Թ��ҷ���Ѻ��� 10%
+--¨§áÊ´§ÃËÑÊÊÔ¹¤éÒ ª×èÍÊÔ¹¤éÒ ÃÒ¤ÒÊÔ¹¤éÒ áÅÐ ÃÒ¤ÒÊÔ¹¤éÒ·Õè»ÃÑº¢Öé¹ 10%
 select ProductID, ProductName,UnitPrice, 
          Convert(Decimal(10,2),UnitPrice*1.1) NewPrice,
 		 Convert(Decimal(10,2),round(UnitPrice*1.1,2)) NewPrice2
 from products
 
---���ʴ����;�ѡ�ҹ ��Шӹǹ�շ��ӧҹ (�Ѻ�ӹǹ�繻�Ẻ�����)
+--¨§áÊ´§ª×èÍ¾¹Ñ¡§Ò¹ áÅÐ¨Ó¹Ç¹»Õ·Õè·Ó§Ò¹ (¹Ñº¨Ó¹Ç¹à»ç¹»ÕáººàµçÁ»Õ)
 Select EmployeeID,TitleOfCourtesy+FirstName+' '+LastName [Employee Name] , 
        year(getdate()) - year(hiredate) Experience, 
 	   year(getdate()) - year(birthdate) Age,
 	   DATEDIFF(hour,BirthDate,GETDATE())/8766 AS AgeYearsIntTrunc
 from Employees
 
---���ʴ������Թ�����§ 5 ����ѡ�� ����Ҥ��Թ���
+--¨§áÊ´§ª×èÍÊÔ¹¤éÒà¾ÕÂ§ 5 µÑÇÍÑ¡ÉÃ áÅÐÃÒ¤ÒÊÔ¹¤éÒ
 Select productID, left(productName,5) PName, UnitPrice
 from Products
 
---���ʴ������Թ��� �ӹǹ �Ҥ� ��ǹŴ �ʹ�Թ��� ��ǹŴ(���ӹǳ����) �ʹ�Թ����ѡ��ǹŴ����
---�ҡ���ҧ [order Details]
---��ͧ��Ҩӹǳ*�ҤҢ�¡�͹���Ǥ����ѡ��ǹŴ
+--¨§áÊ´§ÃËÑÊÊÔ¹¤éÒ ¨Ó¹Ç¹ ÃÒ¤Ò ÊèÇ¹Å´ ÂÍ´à§Ô¹àµçÁ ÊèÇ¹Å´(·Õè¤Ó¹Ç³áÅéÇ) ÂÍ´à§Ô¹·ÕèËÑ¡ÊèÇ¹Å´áÅéÇ
+--¨Ò¡µÒÃÒ§ [order Details]
+--µéÍ§àÍÒ¨Ó¹Ç³*ÃÒ¤Ò¢ÒÂ¡èÍ¹áÅéÇ¤èÍÂËÑ¡ÊèÇ¹Å´
 select ProductID, Quantity,UnitPrice,Discount, 
-       Quantity*UnitPrice TotalCash���, 
-	   Quantity*UnitPrice*Discount DiscountCash��ǹŴ,
-	   (Quantity*UnitPrice)-(Quantity*UnitPrice*Discount) NetCash�ʹ�ش����
+       Quantity*UnitPrice TotalCashÃÇÁ, 
+	   Quantity*UnitPrice*Discount DiscountCashÊèÇ¹Å´,
+	   (Quantity*UnitPrice)-(Quantity*UnitPrice*Discount) NetCashÂÍ´ÊØ´·éÒÂ
 from [Order Details]
 order by 1, 7 desc
---order by ProductID, NetCash�ʹ�ش���� desc
+--order by ProductID, NetCashÂÍ´ÊØ´·éÒÂ desc
 ------------------------------------------------
 --Aggregate Function 
 Select count(*)
@@ -50,35 +51,35 @@ Select CategoryID,Max(Unitprice), Min(UnitPrice),Avg(UnitPrice), Sum(UnitsInStoc
 from Products
 group by CategoryID
 
---��ͧ��÷�Һ�ӹǹ�������������ͧ�Թ������¡�â�µ���������Ţ 11000 �繵��
---���͡��੾�����ʹ��µ�ӡ��� 20 ���
-Select ProductID,Sum(Quantity) �ӹǹ�������
+--µéÍ§¡ÒÃ·ÃÒº¨Ó¹Ç¹·Õè¢ÒÂä´é·Ñé§ËÁ´¢Í§ÊÔ¹¤éÒã¹ÃÒÂ¡ÒÃ¢ÒÂµÑé§áµèËÁÒÂàÅ¢ 11000 à»ç¹µé¹ä»
+--àÅ×Í¡ÁÒà©¾ÒÐÁÕÂÍ´¢ÒÂµèÓ¡ÇèÒ 20 ªÔé¹
+Select ProductID,Sum(Quantity) ¨Ó¹Ç¹·Õè¢ÒÂä´é
 from [Order Details]
 where orderID>=11000
 group by productID
 having Sum(quantity)<20
 order by 2 desc
 
---��ͧ��÷�Һ�Ҥ������ �Ҥ��٧�ش ����Ҥҵ���ش �ͧ�Թ���������Ǵ����
+--µéÍ§¡ÒÃ·ÃÒºÃÒ¤Òà©ÅÕèÂ ÃÒ¤ÒÊÙ§ÊØ´ áÅÐÃÒ¤ÒµèÓÊØ´ ¢Í§ÊÔ¹¤éÒáµèÅÐËÁÇ´ËÁÙè
 Select CategoryID, Avg(UnitPrice), Max(UnitPrice), min(UnitPrice)
 from Products
 group by categoryID
 order by CategoryID
---��ͧ��÷�Һ�ӹǹ�١�������л���� ੾���١��ҷ���� owner ��ҹ�� //�ʴ�੾����¡�÷���� 1 ���
+--µéÍ§¡ÒÃ·ÃÒº¨Ó¹Ç¹ÅÙ¡¤éÒã¹áµèÅÐ»ÃÐà·È à©¾ÒÐÅÙ¡¤éÒ·Õèà»ç¹ owner à·èÒ¹Ñé¹ //áÊ´§à©¾ÒÐÃÒÂ¡ÒÃ·ÕèÁÕ 1 ÃÒÂ
 Select country,count(*)
 from customers
 where ContactTitle = 'owner'
 group by country
-having count(*) =1   --����������ѧ
+having count(*) =1   --ÁÒà¾ÔèÁ·ÕËÅÑ§
 order by Country
---��ͧ��÷�Һ�ӹǹ���觫��� ����ʹ����ͧ����� ���١��任���ȵ�ҧ� ੾��㹻� 1998 
+--µéÍ§¡ÒÃ·ÃÒº¨Ó¹Ç¹ãºÊÑè§«×éÍ áÅÐÂÍ´ÃÇÁ¢Í§¤èÒÊè§ ·Õè¶Ù¡Êè§ä»»ÃÐà·ÈµèÒ§æ à©¾ÒÐã¹»Õ 1998 
 Select ShipCountry,count(*), sum(Freight)
 from orders
 where year(OrderDate) = 1998
 group by ShipCountry
 order by 3 desc
 
--- ��ͧ��������Թ��� �����Թ��� �Ҥ� ������Ǵ���� ������Ǵ���� ੾����Ǵ���������Ţ 2,4,6,8
+-- µéÍ§¡ÒÃÃËÑÊÊÔ¹¤éÒ ª×èÍÊÔ¹¤éÒ ÃÒ¤Ò ÃËÑÊËÁÇ´ËÁÙè ª×èÍËÁÇ´ËÁÙè à©¾ÒÐËÁÇ´ËÁÙèËÁÒÂàÅ¢ 2,4,6,8
 select productID, ProductName, UnitPrice,p.categoryID, categoryName
 from products p, categories c
 where (p.CategoryID = c.CategoryID) and (p.categoryID in (2,4,6,8))
@@ -89,13 +90,13 @@ from products p join categories c on p.CategoryID = c.CategoryID
 where p.categoryID in (2,4,6,8)
 order by 4
 
---��ͧ��ê��;�ѡ�ҹ����Ѻ����觫��������Ţ 10275 (�ʴ���;�ѡ�ҹ ���ʤ���觫��� �ѹ����Ѻ����觫���)
+--µéÍ§¡ÒÃª×èÍ¾¹Ñ¡§Ò¹·ÕèÃÑº¤ÓÊÑè§«×éÍËÁÒÂàÅ¢ 10275 (áÊ´§ª×Í¾¹Ñ¡§Ò¹ ÃËÑÊ¤ÓÊÑè§«×éÍ ÇÑ¹·ÕèÃÑº¤ÓÊÑè§«×éÍ)
 select FirstName, orderID, OrderDate
 from orders o join Employees e on o.EmployeeID = e.EmployeeID
 where orderID = 10275
 
---��ͧ��â������Թ��� ����ȷ���� ������Ǵ���� ������Ǵ���� 
---੾���Թ��ҷ���Ҩҡ����� USA, Mexico, Canada,Brazil �����ʶҹШ�˹����Թ���
+--µéÍ§¡ÒÃ¢éÍÁÙÅÊÔ¹¤éÒ »ÃÐà·È·ÕèÁÒ ÃËÑÊËÁÇ´ËÁÙè ª×èÍËÁÇ´ËÁÙè 
+--à©¾ÒÐÊÔ¹¤éÒ·ÕèÁÒ¨Ò¡»ÃÐà·È USA, Mexico, Canada,Brazil áÅÐÁÕÊ¶Ò¹Ð¨ÓË¹èÒÂÊÔ¹¤éÒ
 select ProductID, ProductName, UnitPrice, s.Country, c.CategoryID , CategoryName
 
 from products p join Categories c on p.CategoryID = c.CategoryID
@@ -104,8 +105,8 @@ from products p join Categories c on p.CategoryID = c.CategoryID
 where s.Country in ('USA', 'Mexico', 'Canada','Brazil') and Discontinued = 0
 order by 4, 5
 
---���ʴ� �����Թ��� �����Թ��� ����ȷ���Ңͧ�Թ��� ��Ǵ�����Թ��� �ӹǹ����� �����١��Ҽ����� 
---���͹��ʡ�ž�ѡ�ҹ����� ���ͺ���ѷ���� ����ȷ���觢ͧ ੾����¡���Թ������� 77 �����������觫���������� 11077
+--¨§áÊ´§ ÃËÑÊÊÔ¹¤éÒ ª×èÍÊÔ¹¤éÒ »ÃÐà·È·ÕèÁÒ¢Í§ÊÔ¹¤éÒ ËÁÇ´ËÁÙèÊÔ¹¤éÒ ¨Ó¹Ç¹·Õè¢ÒÂ ª×èÍÅÙ¡¤éÒ¼Ùé«×éÍ 
+--ª×èÍ¹ÒÁÊ¡ØÅ¾¹Ñ¡§Ò¹¼Ùé¢ÒÂ ª×èÍºÃÔÉÑ·¢¹Êè§ »ÃÐà·È·ÕèÊè§¢Í§ à©¾ÒÐÃÒÂ¡ÒÃÊÔ¹¤éÒÃËÑÊ 77 ·ÕèÍÂÙèã¹ãºÊÑè§«×éÍËÁÒÂàÅÂ 11077
 select p.ProductID,p.ProductName, s.Country,c.CategoryName, od.Quantity, cu.CompanyName,
        FirstName+' '+LastName EmployeeName, sh.CompanyName, o.ShipCountry
 from orders o join [Order Details] od on o.orderID = od.OrderID
